@@ -1,26 +1,272 @@
 @import "tailwindcss";
 
+/* =========================
+   CSS VARIABLES (THEME)
+========================= */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #2a2a2a;
+
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-muted: #666666;
+
+  --accent-primary: #00ff88;
+  --accent-secondary: #ff0080;
+  --accent-tertiary: #0088ff;
+
+  --border-color: #333333;
+
+  --glow-primary: rgba(0, 255, 136, 0.3);
+  --glow-secondary: rgba(255, 0, 128, 0.3);
+
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'Fira Code', monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* =========================
+   BASE STYLES
+========================= */
+@layer base {
+  * {
+    @apply m-0 p-0 box-border;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    @apply overflow-x-hidden leading-relaxed;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* =========================
+   COMPONENTS
+========================= */
+@layer components {
+  .container {
+    @apply max-w-6xl mx-auto px-4 md:px-8;
+  }
+
+  #particles-js {
+    @apply fixed inset-0 -z-10;
+    background:
+      radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.1), transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(255, 0, 128, 0.1), transparent 50%),
+      var(--bg-primary);
+  }
+}
+
+/* =========================
+   UTILITIES
+========================= */
+@layer utilities {
+  .text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-muted {
+    color: var(--text-muted);
+  }
+
+  .bg-secondary {
+    background-color: var(--bg-secondary);
+  }
+
+  .drop-shadow-glow {
+    filter: drop-shadow(0 0 20px var(--glow-primary));
+  }
+
+  .animate-blink {
+    animation: blink 1s infinite;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out both;
+  }
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Cursor Trail Animation */
+@keyframes trailFadeOut {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+/* Optional: Add a subtle glow effect */
+.cursor-trail-glow {
+  box-shadow: 0 0 8px #00ff88, 0 0 12px #00ff88;
+}
+
+/* About section specific animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Decorative line responsive adjustments */
+@media (max-width: 992px) {
+  .about .top-\[50px\] {
+    top: 20px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .about .w-\[10px\] {
+    width: 5px !important;
+    height: 5px !important;
+  }
+  .about .h-\[5px\] {
+    height: 3px !important;
+  }
+}
+
+/* About section specific animations */
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 0.3; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.5; 
+    transform: scale(1.1);
+  }
+}
+
+.animate-pulse {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+/* Decorative line responsive adjustments */
+@media (max-width: 992px) {
+  .about .top-\[50px\] {
+    top: 20px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .about .w-\[10px\] {
+    width: 5px !important;
+    height: 5px !important;
+  }
+  .about .h-\[5px\] {
+    height: 3px !important;
+  }
+}
+
+/* Experience section specific animations */
+@keyframes slideInUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.6s ease-out forwards;
+}
+
+/* Experience card hover effects */
+.experience-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.experience-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ff88, transparent);
+  transition: left 0.5s ease;
+}
+
+.experience-card:hover::before {
+  left: 100%;
+}
+
+/* Experience section specific animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ping {
+  animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Code line animation */
+@keyframes typewriter {
+  0%, 50% { opacity: 0.6; }
+  51%, 100% { opacity: 1; }
+}
+
+.animate-typewriter {
+  animation: typewriter 0.8s ease-in-out;
 }
